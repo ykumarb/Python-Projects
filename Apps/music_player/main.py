@@ -16,6 +16,7 @@ pygame.mixer.init()
 songs = []
 current_song = ""
 paused = False
+from_next = from_prev = False
 
 # Helper to load the music from local storage to List box in the 
 # Music player App
@@ -39,14 +40,30 @@ def load_music():
 
 # Helper to play the current song in the list
 def play_music():
-    global current_song, paused
+    global current_song, paused, from_next, from_prev
 
     if not paused:
+        # print(current_song)
         pygame.mixer.music.load(os.path.join(root.directory, current_song))
         pygame.mixer.music.play()
+        from_prev = from_next = False
+        # print("Both prev and next set to False")
     else:
-        pygame.mixer.music.unpause()
-        paused = False
+        #print("inside else")
+        if from_next is False and from_prev is False:
+            # print("inside 1" + " " + current_song)
+            pygame.mixer.music.unpause()
+            paused = False
+        elif ((from_next is True and from_prev is False) or (from_next is False and from_prev is True)):
+            # print("inside 2" + " " + current_song)
+            pygame.mixer.music.load(os.path.join(root.directory, current_song))
+            pygame.mixer_music.play()
+            from_next = from_prev = False
+            # print("Both prev and next set to False")
+        else:
+            # This condition not valid real time. Both prev and next can't be pressed at same time.
+            #print("Invalid prev/next operation")
+            pass
 
 # Helper to pause the current song from the list
 def pause_music():
@@ -56,24 +73,29 @@ def pause_music():
 
 # Helper to play the next song from the list
 def next_music():
-    global current_song, paused
+    global current_song, paused, from_next
 
     try:
         songList.selection_clear(0, END)
         songList.selection_set(songs.index(current_song) + 1)
         current_song = songs[songList.curselection()[0]]
+        #print(current_song)
+        from_next = True
+        #print("next is set to true")
         play_music()
     except:
         pass
 
 # Helper to play the prev song from the list
 def prev_music():
-    global current_song, paused
+    global current_song, paused, from_prev
 
     try:
         songList.selection_clear(0, END)
         songList.selection_set(songs.index(current_song) - 1)
         current_song = songs[songList.curselection()[0]]
+        from_prev = True
+        #print("prev is set to true")
         play_music()
     except:
         pass
