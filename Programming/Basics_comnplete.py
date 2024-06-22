@@ -283,3 +283,34 @@ def grepper(text='Yupindra'):
         print("String is not there in text")
 
 grepper()
+
+# Exception handling (Try and except) working
+print("Enter the username:")
+username = input()
+
+try:
+    username = int(username)
+    print("Invlid username",username)
+except:
+    print("Valid username", username)
+
+
+# Global and local variables
+var = "Yupindra"
+loop = True
+
+def addTwo(x):
+    global var
+    var = 5
+    return x + var
+
+def addFive(y):
+    global loop
+    loop = False
+    print(loop)
+    return y + 10
+
+addTwo(2)
+addFive(4)
+print(loop)
+print(var)
