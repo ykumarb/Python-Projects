@@ -11,6 +11,7 @@ myImage5 = ImageTk.PhotoImage(Image.open('images/photo6.jpg'))
 
 myList = [myImage1, myImage2, myImage3, myImage4, myImage5]
 
+status = Label(root, text='Image 1 of '+ str(len(myList)), bd=1, relief=SUNKEN, anchor=E)
 myLabel = Label(image=myImage1)
 myLabel.grid(row=0, column=0, columnspan=3)
 
@@ -30,6 +31,8 @@ def clickBck(ImageNumber):
     bckButton.grid(row=1, column=0) 
     fwdButton.grid(row=1, column=2)
 
+    status = Label(root, text="Image " + str(ImageNumber) + " of" + str(len(myList)), relief=SUNKEN, bd=1, anchor=E)
+    status.grid(row=2, column=0, columnspan=3, sticky=W+E)
 
 def clickFwd(ImageNumber):
     
@@ -48,6 +51,9 @@ def clickFwd(ImageNumber):
     bckButton.grid(row=1, column=0) 
     fwdButton.grid(row=1, column=2)
 
+    status = Label(root, text="Image " + str(ImageNumber) + " of" + str(len(myList)), relief=SUNKEN, bd=1, anchor=E)
+    status.grid(row=2, column=0, columnspan=3, sticky=W+E)
+
 bckButton = Button(root, text='<<', borderwidth=3, command=clickBck, state=DISABLED)
 fwdButton = Button(root, text='>>', borderwidth=3, command=lambda:clickFwd(2))
 exitButton = Button(root, text='Exit Program', borderwidth=3, command=root.quit)
@@ -55,5 +61,5 @@ exitButton = Button(root, text='Exit Program', borderwidth=3, command=root.quit)
 bckButton.grid(row=1, column=0) 
 fwdButton.grid(row=1, column=2)
 exitButton.grid(row=1, column=1)
-
+status.grid(row=2, column=0, columnspan=3, sticky=W+E)
 root.mainloop()
